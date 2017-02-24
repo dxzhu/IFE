@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义网页右键菜单</title>
+    <style type="text/css">
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    
+    #content {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+    
+    #menu {
+        display: none;
+        width: 150px;
+        height: 50px;
+        background: red;
+        z-index: 1;
+        position: absolute;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <br> 1.建立一个右键菜单（div）设置隐藏
+        <br> 2.给全局增加oncontextmenu事件
+        <br> 3.触发事件时，获取鼠标位置
+        <br> 4.调整css属性，将div放入指定位置
+        <br> 5.点击非菜单区域，隐藏菜单
+        <br>
+    </div>
+    <div id="menu"></div>
+    <script>
+    var
+        cnt = document.getElementById('content'),
+        menu = document.getElementById('menu');
+
+    cnt.oncontextmenu = function(e) {
+        var
+            width_x = window.innerWidth - e.clientX,
+            height_y = window.innerHeight - e.clientY,
+            px = 'px';
+
+        e.preventDefault();
+
+        menu.style.display = 'block';
+
+        if (width_x < 150) {
+            if (height_y < 50) {
+                menu.style.right = width_x + px;
+                menu.style.bottom = height_y + px;
+            } else {
+                menu.style.right = width_x + px;
+                menu.style.bottom = height_y - 50 + px;
+            }
+        } else if (height_y < 50) {
+            menu.style.right = width_x - 150 + px;
+            menu.style.bottom = height_y + px;
+        } else {
+            menu.style.right = width_x - 150 + px;
+            menu.style.bottom = height_y - 50 + px;
+        }
+    }
+    cnt.onclick = function(e) {
+        menu.style.display = 'none'
+    }
+    </script>
+</body>
+
+</html>
