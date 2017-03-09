@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>正则表达式入门</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var phone = /^1[3578]\d{9}$/;
+		alert(phone.test(18812011232));
+		alert(phone.test(188120112));
+		alert(phone.test(12345678909));
+
+
+
+		function search(str) {
+			var arr = str.split(' '),
+				x = 'false';
+			for (let i = 0; i < arr.length; i++) {
+				if ( arr[i] === arr[i+1]) {
+					x = 'true';
+				}
+			}
+			alert(x)
+		}
+		search('foo foo bar');
+		search('foo bar foo');
+		search('foo  barbar bar');
+
+	</script>
+</body>
+</html>
