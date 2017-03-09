@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -5,28 +6,41 @@
 	<title>正则表达式入门</title>
 </head>
 <body>
+	<label for="phoneNum">请输入手机号</label>
+	<input type="text" id="phoneNum">
+	<button>检测</button><br>
+	<label for="str">请输入字符串</label>
+	<input type="text" id="str">
+	<button>检测</button>
+
+
+
+
+
+
 	<script type="text/javascript">
-		var phone = /^1[3578]\d{9}$/;
-		alert(phone.test(18812011232));
-		alert(phone.test(188120112));
-		alert(phone.test(12345678909));
+		window.onload = function(){
+			var btn1 = document.getElementsByTagName('button')[0],
+				btn2 = document.getElementsByTagName('button')[1],
+				input1 = document.getElementsByTagName('input')[0],
+				input2 = document.getElementsByTagName('input')[1];
 
+			btn1.onclick = function(){
+				var phone = /^1[3578]\d{9}$/;
+				alert(phone.test(input1.value))
+			};
 
-
-		function search(str) {
-			var arr = str.split(' '),
-				x = 'false';
-			for (let i = 0; i < arr.length; i++) {
-				if ( arr[i] === arr[i+1]) {
-					x = 'true';
+			btn2.onclick = function(){
+				var x = 'false',
+					arr = input2.value.split(' ');
+				for (let i = 0; i < arr.length; i++) {
+					if ( arr[i] === arr[i+1]) {
+						x = 'true';
+					}
 				}
-			}
-			alert(x)
+				alert(x)
+			};
 		}
-		search('foo foo bar');
-		search('foo bar foo');
-		search('foo  barbar bar');
-
 	</script>
 </body>
 </html>
