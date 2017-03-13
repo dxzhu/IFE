@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    	span{
+    		display: inline-block;
+    		margin-left: 10px;
+    		padding: 10px;
+    		background: #888;
+    		color: #fff;
+    	}
+    </style>
+</head>
+
+<body>
+    <input type="text" id="input">
+    <button id="">左入</button>
+    <button id="">右入</button>
+    <button id="">左出</button>
+    <button id="">右出</button>
+    <div id="content">
+    </div>
+    <script>
+    var Event = {
+    	addEvent: function(element,type,handler){
+    		if (element.addEventListener) {
+    			element.addEventListener(type,handler,false)
+    		} else if (element.attachEvent){
+    			element.attachEvent('on'+type,handler)
+    		} else {
+    			element['on'+type] = handler;
+    		}
+    	},
+    	removeHandler: function(element,type,handler){
+    		if (element.removeEventListener) {
+    			element.removeEventListener(type,handler,false)
+    		} else if (element.detachEvent) {
+    			element.detachEvent('on'+type,handler)
+    		} else {
+    			element['on'+type] = null;
+    		}
+    	}
+    };
+    var content = document.getElementById('content');
+    function getVal(){
+    	var val = document.getElementById('input').value;
+    	if (!isNaN(val)) {
+    		return val;
+    	} else {
+    		alert('Your input is not a number!');
+    		return false;
+    	}
+    };
+    function reset() {
+    	document.getElementById('input').value = '';
+    	
+    }
+    function leftIn() {
+    	var data = getVal();
+    	if (data) {
+    		var newSpan = document.createElement('span');
+    		newSpan.innerHTML = data; 
+    		content.insertBefore(newSpan,content.firstChild);
+    		Event.addEvent(newSpan,'click',setOut);
+    		reset();
+    	}
+    };
+    function rightIn(){
+    	var data = getVal();
+    	if (data) {
+    		var newSpan = document.createElement('span');
+    		newSpan.innerHTML = data; 
+    		content.appendChild(newSpan);
+    		Event.addEvent(newSpan,'click',setOut);
+    		reset();
+    	}
+    };
+    function leftOut(){
+    	var data = content.firstChild.innerHTML;
+    	content.removeChild(content.firstChild);
+    	alert(data);
+    };
+    function rightOut() {
+    	var data = content.lastChild.innerHTML;
+    	content.removeChild(content.lastChild);
+    	alert(data)
+    };
+    function setOut(){
+    	content.removeChild(this)
+    };
+    function init() {
+    	var btn1 = document.getElementsByTagName('button')[0],
+    		btn2 = document.getElementsByTagName('button')[1],
+    		btn3 = document.getElementsByTagName('button')[2],
+    		btn4 = document.getElementsByTagName('button')[3];
+    	Event.addEvent(btn1,'click',leftIn);
+    	Event.addEvent(btn2,'click',rightIn);
+    	Event.addEvent(btn3,'click',leftOut);
+    	Event.addEvent(btn4,'click',rightOut);
+    };
+    init();
+    </script>
+</body>
+
+</html>
