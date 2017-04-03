@@ -1,257 +1,264 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>任务四：听指令的小方块（一）</title>
-    <link rel="stylesheet" href="app.css">
-    <!-- <script src="app.js"></script> -->
-    <style type="text/css">
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+    
     table {
         border-collapse: collapse;
     }
     
     td {
-        border: 1px solid #aaa;
-        width: 40px;
         height: 40px;
+        width: 40px;
+        border: 1px solid #999;
+        text-align: center;
+        position: relative;
     }
     
-    .box {
-        background-color: blue;
-    }
-    
-    .box-top {
-        padding-top: 10px;
-    }
-    
-    .box-bottom {
-        padding-bottom: 10px;
-    }
-    
-    .box-left {
-        padding-left: 10px;
-    }
-    
-    .box-right {
-        padding-right: 10px;
-    }
-    
-    .box span {
-        display: block;
+    .block {
         width: 100%;
         height: 100%;
-        background-color: red;
+    }
+    
+    .block .block-head {
+        width: 100%;
+        height: 30%;
+        background: #f03;
+    }
+    
+    .block .block-body {
+        width: 100%;
+        height: 70%;
+        background: #33c;
     }
     </style>
 </head>
 
 <body>
-    <table>
-        <tbody></tbody>
-    </table>
-    <input type="text" name="">
-    <button>click</button>
-    <!-- <div id="content">
-		<div id="game">
-			<div id="top"></div>
-			<div id="left"></div>
-			<table></table>
-		</div>
-		<div class="clear"></div>	
-		<div id="step">
-			<input type="text"><button>执行</button>
-		</div>
-	</div> -->
+    <div class="container">
+        <div class="panel">
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div class="block" id="block" style="transform: rotate(0deg);position: absolute;left: 0;top: 0">
+                                <div class="block-head"></div>
+                                <div class="block-body"></div>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="control">
+                <div class="btns">
+                    <button class="btn" id="go">GO</button>
+                    <button class="btn" id="turn-left">TUN LEF</button>
+                    <button class="btn" id="turn-right">TUN RIG</button>
+                    <button class="btn" id="turn-back">TUN BAC</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
-    var game = document.getElementById('game'),
-        step = document.getElementById('step'),
-        table = document.getElementsByTagName('tbody')[0],
-        input = document.querySelector('input'),
-        btn = document.querySelector('button'),
-        Event = {
-            addEvent: function(element, type, handler) {
-                if (element.addEventListener) {
-                    element.addEventListener(type, handler, false)
-                } else if (element.attachEvent) {
-                    element.attachEvent('on' + type, handler)
-                } else {
-                    element['on' + type] = handler;
-                }
-            },
-            removeHandler: function(element, type, handler) {
-                if (element.removeEventListener) {
-                    element.removeEventListener(type, handler, false)
-                } else if (element.detachEvent) {
-                    element.detachEvent('on' + type, handler)
-                } else {
-                    element['on' + type] = null;
-                }
-            }
-        },
-        Game = {
-            way: 'top',
-            i: 0,
-            j: 0,
-            flag: true,
-            topGo: function() {
-                if (this.i === 0) {
-                    this.flag = false;
-                } else {
-                    this.flag = true;
-                    this.i--;
-                }
-            },
-            bottomGo: function() {
-                if (this.i === 9) {
-                    this.flag = false;
-                } else {
-                    this.flag = true;
-                    this.i++
-                }
-            },
-            leftGo: function() {
-                if (this.j = 0) {
-                    this.flag = false;
-                } else {
-                    this.flag = true;
-                    this.j--
-                }
-            },
-            rightGo: function() {
-                if (this.j === 9) {
-                    this.flag = false;
-                } else {
-                    this.flag = true;
-                    this.j++
-                }
-            },
-            turnLeft: function() {
-                var tr = document.querySelectorAll('tr');
-                if (this.way === 'top') {
-                    tr[this.i].children[this.j].className = 'box box-left';
-                    this.way = 'left';
-                } else if (this.way === 'right') {
-                    tr[this.i].children[this.j].className = 'box box-top';
-                    this.way = 'top';
-                } else if (this.way === 'left') {
-                    tr[this.i].children[this.j].className = 'box box-bottom';
-                    this.way = 'bottom';
-                } else {
-                    tr[this.i].children[this.j].className = 'box box-right';
-                    this.way = 'right';
-                }
-
-            },
-            turnRight: function() {
-                var tr = document.querySelectorAll('tr');
-                if (this.way === 'top') {
-                    tr[this.i].children[this.j].className = 'box box-right';
-                    this.way = 'right';
-                } else if (this.way === 'right') {
-                    tr[this.i].children[this.j].className = 'box box-bottom';
-                    this.way = 'bottom';
-                } else if (this.way === 'left') {
-                    tr[this.i].children[this.j].className = 'box box-top';
-                    this.way = 'top';
-                } else {
-                    tr[this.i].children[this.j].className = 'box box-left';
-                    this.way = 'left';
-                }
-            },
-            turnBack: function() {
-                var tr = document.querySelectorAll('tr');
-                if (this.way === 'top') {
-                    tr[this.i].children[this.j].className = 'box box-bottom';
-                    this.way = 'bottom';
-                } else if (this.way === 'right') {
-                    tr[this.i].children[this.j].className = 'box box-left';
-                    this.way = 'left';
-                } else if (this.way === 'left') {
-                    tr[this.i].children[this.j].className = 'box box-right';
-                    this.way = 'right';
-                } else {
-                    tr[this.i].children[this.j].className = 'box box-top';
-                    this.way = 'top';
-                }
-            },
-            go: function() {
-                var tr = document.querySelectorAll('tr');
-                if (this.way === 'top') {
-                    var str = tr[this.i].children[this.j].className;
-                    this.topGo()
-                    if (this.flag) {
-                        tr[this.i].children[this.j].className = str;
-                        tr[this.i + 1].children[this.j].className = null;
-                    } else {
-                        alert('超出范围')
-                    }
-                } else if (this.way === 'right') {
-                    var str = tr[this.i].children[this.j].className;
-                    this.rightGo()
-                    if (this.flag) {
-                        tr[this.i].children[this.j].className = str;
-                        tr[this.i].children[this.j - 1].className = null;
-                    } else {
-                        alert('超出范围')
-                    }
-                } else if (this.way === 'left') {
-                    var str = tr[this.i].children[this.j].className;
-                    this.leftGo();
-                    if (this.flag) {
-                        tr[this.i].children[this.j].className = str;
-                        tr[this.i].children[this.j + 1].className = null;
-                    } else {
-                        alert('超出范围')
-                    }
-                } else {
-                    var str = tr[this.i].children[this.j].className;
-                    this.bottomGo()
-                    if (this.flag) {
-                        tr[this.i].children[this.j].className = str;
-                        tr[this.i - 1].children[this.j].className = null;
-                    } else {
-                        alert('超出范围')
-                    }
-                }
-            }
+    /*获取设置元素的旋转角度*/
+    function angle(element, ang) {
+        if (arguments.length === 1) {
+            var text = element.style.transform;
+            text = text.substring(7, text.length);
+            text = parseInt(text);
+            return text;
         }
-
-    function tamplate() {
-        for (var i = 0; i < 10; i++) {
-            var tr = document.createElement('tr')
-            table.appendChild(tr)
-            for (var j = 0; j < 10; j++) {
-                var td = document.createElement('td'),
-                    span = document.createElement('span');
-                td.appendChild(span);
-                tr.appendChild(td);
-            }
+        if (arguments.length === 2) {
+            element.style.transform = "rotate(" + ang + "deg)";
+            return;
         }
-        document.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].className = 'box box-top'
     }
+    /*获取dom对象*/
+    var block = document.getElementById('block'),
+        go_ = document.getElementById('go'),
+        turn_left = document.getElementById('turn-left'),
+        turn_right = document.getElementById('turn-right'),
+        turn_back = document.getElementById('turn-back');
+    /*左旋转按钮处理程序*/
+    function turnLeft() {
+        var angleNow = angle(block);
+        angleNow = angleNow - 90;
+        angle(block, angleNow);
+    }
+    /*right*/
+    function turnRight() {
+        var angleNow = angle(block);
+        angleNow = angleNow + 90;
+        angle(block, angleNow)
+    }
+    /*back*/
+    function turnBack() {
+        var angleNow = angle(block);
+        angleNow = angleNow + 180;
+        angle(block, angleNow)
+    }
+    /*go*/
+    function go() {
+        var angleNow = angle(block);
+        angleNow = angleNow % 360;
+        angleNow = angleNow >= 0 ? angleNow : (angleNow + 360);
+        console.log(1)
+        var left = parseInt(block.style.left),
+            top = parseInt(block.style.top);
 
-    function getVal() {
-        var data = input.value;
-        if (data === 'GO') {
-            Game.go()
-        } else if (data === 'TUN LEF') {
-            Game.turnLeft()
-        } else if (data === 'TUN RIG') {
-            Game.turnRight()
-        } else if (data === 'TUN BAC') {
-            Game.turnBack()
-        } else if (data === '') {
-            alert('指令不能为空');
-        } else {
-            alert('指令非法');
+        if (angleNow == 0) {
+            if (top >= 40) {
+                block.style.top = (top - 40) + 'px';
+            }
+        }
+        if (angleNow == 90) {
+            if (left <= 280) {
+                block.style.left = (left + 40) + 'px';
+            }
+        }
+        if (angleNow == 180) {
+            if (top <= 280) {
+                block.style.top = (top + 40) + 'px';
+            }
+        }
+        if (angleNow == 270) {
+            if (left >= 40) {
+                block.style.left = (left - 40) + 'px';
+            }
         }
     }
 
+    /*绑定事件*/
     function init() {
-        tamplate();
-        Event.addEvent(btn, 'click', getVal)
-    }
+        go_.onclick = go;
+        turn_left.onclick = turnLeft;
+        turn_right.onclick = turnRight;
+        turn_back.onclick = turnBack;
+    };
     init();
     </script>
 </body>
