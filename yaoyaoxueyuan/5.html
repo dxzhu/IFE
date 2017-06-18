@@ -3,41 +3,81 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>任务四：听指令的小方块（二）</title>
+    <title>听指令的小方块</title>
     <style>
-    * {
-        box-sizing: border-box;
-    }
-    
-    table {
-        border-collapse: collapse;
-    }
-    
-    td {
-        height: 40px;
-        width: 40px;
-        border: 1px solid #999;
-        text-align: center;
-        position: relative;
-    }
-    
-    .block {
-        width: 100%;
-        height: 100%;
-        transition: all 1s;
-    }
-    
-    .block .block-head {
-        width: 100%;
-        height: 30%;
-        background: #f03;
-    }
-    
-    .block .block-body {
-        width: 100%;
-        height: 70%;
-        background: #33c;
-    }
+        * {
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            height: 40px;
+            width: 40px;
+            border: 1px solid #999;
+            text-align: center;
+            position: relative;
+        }
+
+        .block {
+            width: 100%;
+            height: 100%;
+            transition: all 1s;
+        }
+
+        .block .block-head {
+            width: 100%;
+            height: 30%;
+            background: #f03;
+        }
+
+        .block .block-body {
+            width: 100%;
+            height: 70%;
+            background: #33c;
+        }
+
+        .container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .panel {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .btns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        .btn {
+            background: #424242;
+            color: #fff;
+            border: none;
+            display: block;
+            height: 2rem;
+            line-height: 2rem;
+            margin: 5px;
+            padding: 0 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -182,150 +222,157 @@
                     <button class="btn" id="turn-back">TUN BAC</button>
                 </div>
                 <div class="btns">
-                	<button class="btn" id="tra-left">TRA LEF</button>
-                	<button class="btn" id="tra-top">TRA TOP</button>
-                	<button class="btn" id="tra-right">TRA RIG</button>
-                	<button class="btn" id="tra-bottom">TRA BOT</button>
-                	<button class="btn" id="mov-left">MOV LEF</button>
-                	<button class="btn" id="mov-top">MOV TOP</button>
-                	<button class="btn" id="mov-right">MOV RIG</button>
-                	<button class="btn" id="mov-bottom">MOV BOT</button>
+                    <button class="btn" id="tra-left">TRA LEF</button>
+                    <button class="btn" id="tra-top">TRA TOP</button>
+                    <button class="btn" id="tra-right">TRA RIG</button>
+                    <button class="btn" id="tra-bottom">TRA BOT</button>
+                    <button class="btn" id="mov-left">MOV LEF</button>
+                    <button class="btn" id="mov-top">MOV TOP</button>
+                    <button class="btn" id="mov-right">MOV RIG</button>
+                    <button class="btn" id="mov-bottom">MOV BOT</button>
                 </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
-    /*获取设置元素的旋转角度*/
-    function angle(element, ang) {
-        if (arguments.length === 1) {
-            var text = element.style.transform;
-            text = text.substring(7, text.length);
-            text = parseInt(text);
-            return text;
+        /*获取设置元素的旋转角度*/
+        function angle(element, ang) {
+            if (arguments.length === 1) {
+                var text = element.style.transform;
+                text = text.substring(7, text.length);
+                text = parseInt(text);
+                return text;
+            }
+            if (arguments.length === 2) {
+                element.style.transform = "rotate(" + ang + "deg)";
+                return;
+            }
         }
-        if (arguments.length === 2) {
-            element.style.transform = "rotate(" + ang + "deg)";
-            return;
+        /*获取dom对象*/
+        var block = document.getElementById('block'),
+            go_ = document.getElementById('go'),
+            turn_left = document.getElementById('turn-left'),
+            turn_right = document.getElementById('turn-right'),
+            turn_back = document.getElementById('turn-back'),
+            tra_left = document.getElementById('tra-left'),
+            tra_right = document.getElementById('tra-right'),
+            tra_top = document.getElementById('tra-top'),
+            tra_bottom = document.getElementById('tra-bottom'),
+            mov_left = document.getElementById('mov-left'),
+            mov_right = document.getElementById('mov-right'),
+            mov_top = document.getElementById('mov-top'),
+            mov_bottom = document.getElementById('mov-bottom');
+        /*左旋转按钮处理程序*/
+        function turnLeft() {
+            var angleNow = angle(block);
+            angleNow = angleNow - 90;
+            angle(block, angleNow);
         }
-    }
-    /*获取dom对象*/
-    var block = document.getElementById('block'),
-        go_ = document.getElementById('go'),
-        turn_left = document.getElementById('turn-left'),
-        turn_right = document.getElementById('turn-right'),
-        turn_back = document.getElementById('turn-back'),
-        tra_left =document.getElementById('tra-left'),
-        tra_right =document.getElementById('tra-right'),
-        tra_top =document.getElementById('tra-top'),
-        tra_bottom =document.getElementById('tra-bottom'),
-        mov_left =document.getElementById('mov-left'),
-        mov_right =document.getElementById('mov-right'),
-        mov_top =document.getElementById('mov-top'),
-        mov_bottom =document.getElementById('mov-bottom');
-    /*左旋转按钮处理程序*/
-    function turnLeft() {
-        var angleNow = angle(block);
-        angleNow = angleNow - 90;
-        angle(block, angleNow);
-    }
-    /*right*/
-    function turnRight() {
-        var angleNow = angle(block);
-        angleNow = angleNow + 90;
-        angle(block, angleNow)
-    }
-    /*back*/
-    function turnBack() {
-        var angleNow = angle(block);
-        angleNow = angleNow + 180;
-        angle(block, angleNow)
-    }
-    /*go*/
-    function go() {
-        var angleNow = angle(block);
-        angleNow = angleNow % 360;
-        angleNow = angleNow >= 0 ? angleNow : (angleNow + 360);
-        console.log(1)
-        var left = parseInt(block.style.left),
-            top = parseInt(block.style.top);
+        /*right*/
+        function turnRight() {
+            var angleNow = angle(block);
+            angleNow = angleNow + 90;
+            angle(block, angleNow)
+        }
+        /*back*/
+        function turnBack() {
+            var angleNow = angle(block);
+            angleNow = angleNow + 180;
+            angle(block, angleNow)
+        }
+        /*go*/
+        function go() {
+            var angleNow = angle(block);
+            angleNow = angleNow % 360;
+            angleNow = angleNow >= 0 ? angleNow : (angleNow + 360);
+            console.log(1)
+            var left = parseInt(block.style.left),
+                top = parseInt(block.style.top);
+            if (angleNow == 0) {
+                if (top >= 40) {
+                    block.style.top = (top - 40) + 'px';
+                }
+            }
+            if (angleNow == 90) {
+                if (left <= 280) {
+                    block.style.left = (left + 40) + 'px';
+                }
+            }
+            if (angleNow == 180) {
+                if (top <= 280) {
+                    block.style.top = (top + 40) + 'px';
+                }
+            }
+            if (angleNow == 270) {
+                if (left >= 40) {
+                    block.style.left = (left - 40) + 'px';
+                }
+            }
+        }
 
-        if (angleNow == 0) {
-            if (top >= 40) {
-                block.style.top = (top - 40) + 'px';
-            }
-        }
-        if (angleNow == 90) {
-            if (left <= 280) {
-                block.style.left = (left + 40) + 'px';
-            }
-        }
-        if (angleNow == 180) {
-            if (top <= 280) {
-                block.style.top = (top + 40) + 'px';
-            }
-        }
-        if (angleNow == 270) {
+        function traLeft() {
+            var left = parseInt(block.style.left);
             if (left >= 40) {
                 block.style.left = (left - 40) + 'px';
             }
         }
-    }
-    function traLeft(){
-    	var left = parseInt(block.style.left);
-    	if(left >= 40){
-    		block.style.left = (left - 40) + 'px';
-    	}
-    }
-    function traRight(){
-    	var left = parseInt(block.style.left);
-    	if(left <= 280){
-    		block.style.left = (left + 40) + 'px';
-    	}
-    }
-    function traTop(){
-    	var top = parseInt(block.style.top);
-    	if (top >= 40) {
-            block.style.top = (top - 40) + 'px';
+
+        function traRight() {
+            var left = parseInt(block.style.left);
+            if (left <= 280) {
+                block.style.left = (left + 40) + 'px';
+            }
         }
-    }
-    function traBottom(){
-    	var top = parseInt(block.style.top);
-    	if (top <= 280) {
-            block.style.top = (top + 40) + 'px';
+
+        function traTop() {
+            var top = parseInt(block.style.top);
+            if (top >= 40) {
+                block.style.top = (top - 40) + 'px';
+            }
         }
-    }
-    function movLeft(){
-    	block.style.transform = 'rotate(270deg)';
-    	traLeft();
-    }
-    function movRight(){
-    	block.style.transform = 'rotate(90deg)';
-    	traRight();
-    }
-    function movTop(){
-    	block.style.transform = 'rotate(0deg)';
-    	traTop();
-    }
-    function movBottom(){
-    	block.style.transform = 'rotate(180deg)';
-    	traBottom();
-    }
-    /*绑定事件*/
-    function init() {
-        go_.onclick = go;
-        turn_left.onclick = turnLeft;
-        turn_right.onclick = turnRight;
-        turn_back.onclick = turnBack;
-        tra_left.onclick = traLeft;
-        tra_right.onclick = traRight;
-        tra_top.onclick = traTop;
-        tra_bottom.onclick = traBottom;
-        mov_left.onclick = movLeft;
-        mov_right.onclick = movRight;
-        mov_top.onclick = movTop;
-        mov_bottom.onclick = movBottom;
-    };
-    init();
+
+        function traBottom() {
+            var top = parseInt(block.style.top);
+            if (top <= 280) {
+                block.style.top = (top + 40) + 'px';
+            }
+        }
+
+        function movLeft() {
+            block.style.transform = 'rotate(270deg)';
+            traLeft();
+        }
+
+        function movRight() {
+            block.style.transform = 'rotate(90deg)';
+            traRight();
+        }
+
+        function movTop() {
+            block.style.transform = 'rotate(0deg)';
+            traTop();
+        }
+
+        function movBottom() {
+            block.style.transform = 'rotate(180deg)';
+            traBottom();
+        }
+        /*绑定事件*/
+        function init() {
+            go_.onclick = go;
+            turn_left.onclick = turnLeft;
+            turn_right.onclick = turnRight;
+            turn_back.onclick = turnBack;
+            tra_left.onclick = traLeft;
+            tra_right.onclick = traRight;
+            tra_top.onclick = traTop;
+            tra_bottom.onclick = traBottom;
+            mov_left.onclick = movLeft;
+            mov_right.onclick = movRight;
+            mov_top.onclick = movTop;
+            mov_bottom.onclick = movBottom;
+        };
+        init();
     </script>
 </body>
 
